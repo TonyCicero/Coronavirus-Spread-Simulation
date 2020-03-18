@@ -68,12 +68,18 @@ HOUSES_B []
 
 #Workplaces for each town. Holds array of workers/students who are currently in the building
 Hospital_A []
+Infected_HA = 0 #number of infected people in building
 School_A []
+Infected_SA = 0 #number of infected people in building
 Work_A []
+Infected_WA = 0 #number of infected people in building
 
 Hospital_B []
+Infected_HB = 0 #number of infected people in building
 School_B []
+Infected_SB = 0 #number of infected people in building
 Work_B []
+Infected_WB = 0 #number of infected people in building
 
 #array of people killed by virus seperated by town
 Dead_A[]
@@ -102,20 +108,32 @@ def DayCycle():
             elif person.Age > 6: #older than age group 6 doesnt go to work
                 #is at home
             elif person.Work == 0:
+                if person.Status != 'NORM':
+                    Infected_WA += 1
                 Work_A.append(person)
             elif person.Work == 1:
+                if person.Status != 'NORM':
+                    Infected_WB += 1
                 Work_B.append(person)
-            elif person.Work == 2 and person.Town == 'A': 
+            elif person.Work == 2 and person.Town == 'A':
+                if person.Status != 'NORM':
+                    Infected_SA += 1
                 School_A.append(x)
-            elif person.Work == 2 and person.Town == 'B': 
+            elif person.Work == 2 and person.Town == 'B':
+                if person.Status != 'NORM':
+                    Infected_SB += 1
                 School_B.append(person)
-            elif person.Work == 3 and person.Town == 'A': 
+            elif person.Work == 3 and person.Town == 'A':
+                if person.Status != 'NORM':
+                    Infected_HA += 1
                 Hospital_A.append(person)
-            elif person.Work == 3 and person.Town == 'B': 
+            elif person.Work == 3 and person.Town == 'B':
+                if person.Status != 'NORM':
+                    Infected_HB += 1
                 Hospital_B.append(person)
                 
     #Travel for Town B
-    for House in HOUSES_B: #fill building arrays with people currently in the building
+   for House in HOUSES_B: #fill building array with people currently in the building
         for person in House:
             if person.Status == QUARANTINE: #person meets home quarantine status
                 #is at home
@@ -124,19 +142,42 @@ def DayCycle():
             elif person.Age > 6: #older than age group 6 doesnt go to work
                 #is at home
             elif person.Work == 0:
+                if person.Status != 'NORM':
+                    Infected_WA += 1
                 Work_A.append(person)
             elif person.Work == 1:
+                if person.Status != 'NORM':
+                    Infected_WB += 1
                 Work_B.append(person)
-            elif person.Work == 2 and person.Town == 'A': 
+            elif person.Work == 2 and person.Town == 'A':
+                if person.Status != 'NORM':
+                    Infected_SA += 1
                 School_A.append(x)
-            elif person.Work == 2 and person.Town == 'B': 
+            elif person.Work == 2 and person.Town == 'B':
+                if person.Status != 'NORM':
+                    Infected_SB += 1
                 School_B.append(person)
-            elif person.Work == 3 and person.Town == 'A': 
+            elif person.Work == 3 and person.Town == 'A':
+                if person.Status != 'NORM':
+                    Infected_HA += 1
                 Hospital_A.append(person)
-            elif person.Work == 3 and person.Town == 'B': 
+            elif person.Work == 3 and person.Town == 'B':
+                if person.Status != 'NORM':
+                    Infected_HB += 1
                 Hospital_B.append(person)
          
-    
+
+def BuildingInfectivity(Building, NI, f): #determine if person in building got infected
+    for person in Building:
+        if person.Status == 'NORM':
+            n = len(Building)
+            r = NI/n
+            x = r/f
+            rand = random.random()
+            if rand < x:
+                person.Status = 'ASYMPT'
+        
+
 def RandWork():
     x = random.randint(0,100)
     if x<40:
