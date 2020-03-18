@@ -165,6 +165,8 @@ def DayCycle():
                 if person.Status != 'NORM':
                     Infected_HB += 1
                 Hospital_B.append(person)
+
+    
          
 
 def BuildingInfectivity(Building, NI, f): #determine if person in building got infected
@@ -176,6 +178,21 @@ def BuildingInfectivity(Building, NI, f): #determine if person in building got i
             rand = random.random()
             if rand < x:
                 person.Status = 'ASYMPT'
+
+def HouseInfectivity(Town, f): #determince if person in home should become infected
+    for House in Town:
+        NI = 0
+        for Person in House:
+            if Persion.Status != 'NORM':
+                NI += 1
+        for Person in House:
+            if Person.Status == 'NORM':
+                n = len(House)
+                r = NI / n
+                x = r/f
+                rand = random.random()
+                if rand < x:
+                    Person.Status = 'ASYMPT'
         
 
 def RandWork():
